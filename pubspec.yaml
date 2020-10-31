@@ -1,5 +1,5 @@
 name: Face_recognition
-description: Realtime face recognition with flutter.
+description: Smart Home Application.
 version: 1.0.0+1
 
 environment:
@@ -20,10 +20,17 @@ dependencies:
   image_picker: ^0.6.7+12
   camera: ^0.5.8+2
   firebase_ml_vision: ^0.6.0
+  flutter_launcher_icons: ^0.8.1
 
 dev_dependencies:
+#  flutter_launcher_icons: ^0.8.0
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo.png"
 
 
 flutter:

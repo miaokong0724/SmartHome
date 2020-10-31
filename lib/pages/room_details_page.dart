@@ -9,7 +9,7 @@ import 'package:Face_recognition/widgets/room_details/music_player.dart';
 import 'package:Face_recognition/widgets/room_details/device_controller.dart';
 import 'package:Face_recognition/widgets/room_details/air_conditioner_controller.dart';
 import 'package:Face_recognition/utilities/mqtt_stream.dart';
-import 'package:Face_recognition/utilities/Adafruit_feed.dart';
+// import 'package:Face_recognition/utilities/Adafruit_feed.dart';
 
 class RoomDetailsPage extends StatefulWidget {
   final Room room;
@@ -87,12 +87,12 @@ class _RoomDetailsPageState extends State<RoomDetailsPage>
                 name: 'LAMP',
                 status: _status,
                 image: 'assets/images/lamp_icon.png',
-                heading: 'PENDENT LAMP',
+                heading: 'LED',
                 subHeading: '',
                 onTap: () {
                   setState(() {
                     _status = !_status;
-                    print(_status);
+                    // print(_status);
                     publish(
                         "vkmanojk/feeds/smart-home", (_status) ? "ON" : "OFF");
                   });
@@ -115,25 +115,31 @@ class _RoomDetailsPageState extends State<RoomDetailsPage>
   }
 
   Widget _buildDeviceController() {
-    return Transform.translate(
-      offset: Offset(_enterAnimations.deviceControllerTranslation.value, 0.0),
-      child: const DeviceController(
-        status: true,
-        heading: 'PENDENT LAMP',
-        subHeading: '',
-      ),
-    );
+    return (widget.room.id == 4 || widget.room.id == 3)
+        ? Container()
+        : Transform.translate(
+            offset:
+                Offset(_enterAnimations.deviceControllerTranslation.value, 0.0),
+            child: const DeviceController(
+              status: true,
+              heading: 'LAMP',
+              subHeading: '',
+            ),
+          );
   }
 
   Widget _buildAirConditionerController() {
-    return Transform.translate(
-      offset: Offset(_enterAnimations.airControllerTranslation.value, 0.0),
-      child: const AirConditionerController(),
-    );
+    return (widget.room.id == 4)
+        ? Container()
+        : Transform.translate(
+            offset:
+                Offset(_enterAnimations.airControllerTranslation.value, 0.0),
+            child: const AirConditionerController(),
+          );
   }
 
   Widget _buildCameraController() {
-    print(widget.room.id);
+    // print(widget.room.id);
     return (widget.room.id == 4)
         ? Transform.translate(
             offset:
@@ -178,6 +184,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage>
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      // ignore: missing_return
       onWillPop: () {
         _animationController.reverse();
       },

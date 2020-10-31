@@ -1,6 +1,5 @@
 import 'package:Face_recognition/shared/styles.dart';
 import 'package:flutter/material.dart';
-
 import '../gradient_box.dart';
 
 class DeviceController extends StatelessWidget {

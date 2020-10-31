@@ -81,7 +81,7 @@ class AirConditionerController extends StatelessWidget {
                           return Material(
                             color: Colors.transparent,
                             child: Text(
-                                '${temp}${String.fromCharCode(html.$deg)}',
+                                '$temp${String.fromCharCode(html.$deg)}',
                                 style: TextStyle(
                                     fontSize: 30.0,
                                     fontWeight: FontWeight.bold,

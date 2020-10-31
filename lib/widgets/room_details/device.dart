@@ -22,8 +22,8 @@ class Device extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(heading);
-    print(status);
+    // print(heading);
+    // print(status);
     return GradientBox(
       child: GestureDetector(
         onLongPress: onTap,
