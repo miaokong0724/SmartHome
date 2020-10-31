@@ -1,0 +1,54 @@
+name: Face_recognition
+description: Realtime face recognition with flutter.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+  provider: ^2.0.0+1
+  mqtt_client: ^5.4.0
+  logging: ^0.11.3+2
+  stack_trace: ^1.9.3
+  path_provider: ^1.6.11
+  tflite_flutter: ^0.4.1
+  image: ^2.1.12
+  image_picker: ^0.6.7+12
+  camera: ^0.5.8+2
+  firebase_ml_vision: ^0.6.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+
+  uses-material-design: true
+
+  fonts:
+    - family: Noto Sans SC
+      fonts:
+        - asset: assets/fonts/NotoSansSC-Bold.ttf
+        - asset: assets/fonts/NotoSansSC-Light.ttf
+        - asset: assets/fonts/NotoSansSC-Medium.ttf
+        - asset: assets/fonts/NotoSansSC-Regular.ttf
+
+    - family: Alfa Slab One
+      fonts:
+        - asset: assets/fonts/AlfaSlabOne-Regular.ttf
+
+    - family: Chivo
+      fonts:
+        - asset: assets/fonts/Chivo-Bold.ttf
+        - asset: assets/fonts/Chivo-Regular.ttf
+
+  assets:
+    - assets/mobilefacenet.tflite
+    - assets/images/
+    - assets/
+    - config/private.json
