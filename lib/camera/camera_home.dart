@@ -10,6 +10,8 @@ import 'package:image/image.dart' as imglib;
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 import 'package:quiver/collection.dart';
 import 'package:flutter/services.dart';
+import 'package:Face_recognition/utilities/mqtt_stream.dart';
+// import 'package:Face_recognition/utilities/Adafruit_feed.dart';
 
 // void main() {
 //   runApp(MaterialApp(
@@ -39,6 +41,9 @@ class _CameraPageState extends State<CameraPage> {
   List e1;
   bool _faceFound = false;
   final TextEditingController _name = new TextEditingController();
+
+  AppMqttTransactions myMqtt = AppMqttTransactions();
+
   @override
   void initState() {
     super.initState();
@@ -280,6 +285,14 @@ class _CameraPageState extends State<CameraPage> {
     return img1;
   }
 
+  void subscribe(String topic) {
+    myMqtt.subscribe(topic);
+  }
+
+  void publish(String topic, String value) {
+    myMqtt.publish(topic, value);
+  }
+
   String _recog(imglib.Image img) {
     List input = imageToByteListFloat32(img, 112, 128, 128);
     input = input.reshape([1, 112, 112, 3]);
@@ -287,7 +300,13 @@ class _CameraPageState extends State<CameraPage> {
     interpreter.run(input, output);
     output = output.reshape([192]);
     e1 = List.from(output);
-    return compare(e1).toUpperCase();
+    String result = compare(e1).toUpperCase();
+    if (result != 'NOT RECOGNIZED') {
+      publish("harsha_saketh/feeds/lock", "ON");
+    } else {
+      publish("harsha_saketh/feeds/lock", "OFF");
+    }
+    return result;
   }
 
   String compare(List currEmb) {

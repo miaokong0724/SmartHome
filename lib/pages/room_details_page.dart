@@ -94,7 +94,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage>
                     _status = !_status;
                     // print(_status);
                     publish(
-                        "vkmanojk/feeds/smart-home", (_status) ? "ON" : "OFF");
+                        "harsha_saketh/feeds/light", (_status) ? "ON" : "OFF");
                   });
                 },
               ),
