@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:Face_recognition/pages/room_details_page.dart';
+import 'package:Face_recognition/shared/models.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
@@ -11,19 +14,12 @@ import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 import 'package:quiver/collection.dart';
 import 'package:flutter/services.dart';
 import 'package:Face_recognition/utilities/mqtt_stream.dart';
+
 // import 'package:Face_recognition/utilities/Adafruit_feed.dart';
 
-// void main() {
-//   runApp(MaterialApp(
-//     themeMode: ThemeMode.light,
-//     theme: ThemeData(brightness: Brightness.light),
-//     home: _MyHomePage(),
-//     title: "Face Recognition",
-//     debugShowCheckedModeBanner: false,
-//   ));
-// }
-
 class CameraPage extends StatefulWidget {
+  final Room room;
+  CameraPage({this.room});
   @override
   _CameraPageState createState() => _CameraPageState();
 }
@@ -41,7 +37,7 @@ class _CameraPageState extends State<CameraPage> {
   List e1;
   bool _faceFound = false;
   final TextEditingController _name = new TextEditingController();
-
+  String result = 'NOT RECOGNIZED';
   AppMqttTransactions myMqtt = AppMqttTransactions();
 
   @override
@@ -80,7 +76,7 @@ class _CameraPageState extends State<CameraPage> {
     ImageRotation rotation = rotationIntToImageRotation(
       description.sensorOrientation,
     );
-
+    String res;
     _camera =
         CameraController(description, ResolutionPreset.low, enableAudio: false);
     await _camera.initialize();
@@ -94,7 +90,7 @@ class _CameraPageState extends State<CameraPage> {
       if (_camera != null) {
         if (_isDetecting) return;
         _isDetecting = true;
-        String res;
+
         dynamic finalResult = Multimap<String, Face>();
         detect(image, _getDetectionMethod(), rotation).then(
           (dynamic result) async {
@@ -132,6 +128,16 @@ class _CameraPageState extends State<CameraPage> {
           },
         );
       }
+    });
+    Future.delayed(Duration(seconds: 5), () {
+      Navigator.pop(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => RoomDetailsPage(
+                    room: widget.room,
+                    result: result,
+                  )));
     });
   }
 
@@ -301,11 +307,6 @@ class _CameraPageState extends State<CameraPage> {
     output = output.reshape([192]);
     e1 = List.from(output);
     String result = compare(e1).toUpperCase();
-    if (result != 'NOT RECOGNIZED') {
-      publish("harsha_saketh/feeds/lock", "ON");
-    } else {
-      publish("harsha_saketh/feeds/lock", "OFF");
-    }
     return result;
   }
 
@@ -321,6 +322,14 @@ class _CameraPageState extends State<CameraPage> {
         predRes = label;
       }
     }
+    if (predRes != 'NOT RECOGNIZED') result = predRes;
+    // if (predRes != 'NOT RECOGNIZED') {
+    //   publish("vkmanojk/feeds/lock", "ON");
+    // } else {
+    //   publish("vkmanojk/feeds/lock", "OFF");
+    // }
+    // Future.delayed(Duration(seconds: 5), () {});
+    // Timer(Duration(seconds: 5), () {});
     print(minDist.toString() + " " + predRes);
     return predRes;
   }

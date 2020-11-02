@@ -14,9 +14,11 @@ import 'package:Face_recognition/utilities/mqtt_stream.dart';
 class RoomDetailsPage extends StatefulWidget {
   final Room room;
   final bool isOutdoor;
+  final String result;
   RoomDetailsPage({
     this.room,
     this.isOutdoor = false,
+    this.result = 'NOT RECOGNIZED',
   });
 
   _RoomDetailsPageState createState() => _RoomDetailsPageState();
@@ -29,8 +31,9 @@ class _RoomDetailsPageState extends State<RoomDetailsPage>
   RoomDetailsEnterAnimations _enterAnimations;
   bool _status = false;
   bool lastStatus = true;
+  bool cameraChecked = false;
   double appBarHeight = 200.0;
-
+  final result = 'NOT RECOGNIZED';
   AppMqttTransactions myMqtt = AppMqttTransactions();
 
   @override
@@ -93,8 +96,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage>
                   setState(() {
                     _status = !_status;
                     // print(_status);
-                    publish(
-                        "harsha_saketh/feeds/light", (_status) ? "ON" : "OFF");
+                    publish("vkmanojk/feeds/light", (_status) ? "ON" : "OFF");
                   });
                 },
               ),
@@ -106,7 +108,7 @@ class _RoomDetailsPageState extends State<RoomDetailsPage>
             offset: Offset(0.0, _enterAnimations.playerTranslation.value),
             child: Container(
               padding: EdgeInsets.only(left: 6.0),
-              child: const MusicPlayer(),
+              child: MusicPlayer(),
             ),
           ),
         )
@@ -139,24 +141,44 @@ class _RoomDetailsPageState extends State<RoomDetailsPage>
   }
 
   Widget _buildCameraController() {
-    // print(widget.room.id);
     return (widget.room.id == 4)
         ? Transform.translate(
             offset:
                 Offset(_enterAnimations.deviceControllerTranslation.value, 0.0),
-            child: Container(
-              child: IconButton(
-                icon: Icon(
-                  Icons.lock,
+            child: Material(
+              child: Container(
+                child: IconButton(
+                  icon: Icon(
+                    Icons.lock,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      cameraChecked = true;
+                    });
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CameraPage(
+                                  room: widget.room,
+                                )));
+                    if (widget.result != 'NOT RECOGNIZED') {
+                      publish("vkmanojk/feeds/lock", "ON");
+                    } else if (cameraChecked) {
+                      publish("vkmanojk/feeds/lock", "OFF");
+                    }
+                    Future.delayed(Duration(seconds: 30), () {
+                      publish("vkmanojk/feeds/lock", "OFF");
+                    });
+                  },
                 ),
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CameraPage()));
-                },
               ),
+              color: Colors.transparent,
             ),
           )
-        : Container();
+        : Material(
+            child: Container(),
+            color: Colors.transparent,
+          );
   }
 
   Widget _buildSliverList() {

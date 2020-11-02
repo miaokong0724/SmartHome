@@ -23,7 +23,6 @@ dependencies:
   flutter_launcher_icons: ^0.8.1
 
 dev_dependencies:
-#  flutter_launcher_icons: ^0.8.0
   flutter_test:
     sdk: flutter
 
@@ -55,7 +54,8 @@ flutter:
         - asset: assets/fonts/Chivo-Regular.ttf
 
   assets:
-    - assets/mobilefacenet.tflite
-    - assets/images/
     - assets/
+    - assets/images/
+    - assets/mobilefacenet.tflite
+    - assets/audio/
     - config/private.json
