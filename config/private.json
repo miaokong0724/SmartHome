@@ -1,5 +1,5 @@
 {
-  "broker": "io.adafruit.com",
-  "username": "vkmanojk",
-  "key": "a887d642fda8483f81dd39180b6c333f"
+  "broker": "url of your mqtt broker",
+  "username": "your username",
+  "key": "your password"
 }
