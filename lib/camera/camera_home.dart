@@ -1,21 +1,21 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:Face_recognition/pages/room_details_page.dart';
-import 'package:Face_recognition/shared/models.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:camera/camera.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
+import '../pages/room_details_page.dart';
+import '../shared/models.dart';
+import '../utilities/mqtt_stream.dart';
 import 'detector_painters.dart';
 import 'utils.dart';
 import 'package:image/image.dart' as imglib;
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 import 'package:quiver/collection.dart';
 import 'package:flutter/services.dart';
-import 'package:Face_recognition/utilities/mqtt_stream.dart';
 
-// import 'package:Face_recognition/utilities/Adafruit_feed.dart';
+// import 'package:SmartHome/utilities/Adafruit_feed.dart';
 
 class CameraPage extends StatefulWidget {
   final Room room;

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:Face_recognition/camera/camera_home.dart';
-import 'package:Face_recognition/shared/models.dart';
-import 'package:Face_recognition/shared/animations.dart';
-import 'package:Face_recognition/widgets/room_background_image.dart';
-import 'package:Face_recognition/widgets/room_heading.dart';
-import 'package:Face_recognition/widgets/room_details/device.dart';
-import 'package:Face_recognition/widgets/room_details/music_player.dart';
-import 'package:Face_recognition/widgets/room_details/device_controller.dart';
-import 'package:Face_recognition/widgets/room_details/air_conditioner_controller.dart';
-import 'package:Face_recognition/utilities/mqtt_stream.dart';
-// import 'package:Face_recognition/utilities/Adafruit_feed.dart';
+import '../camera/camera_home.dart';
+import '../shared/models.dart';
+import '../shared/animations.dart';
+import '../widgets/room_background_image.dart';
+import '../widgets/room_heading.dart';
+import '../widgets/room_details/device.dart';
+import '../widgets/room_details/music_player.dart';
+import '../widgets/room_details/device_controller.dart';
+import '../widgets/room_details/air_conditioner_controller.dart';
+import '../utilities/mqtt_stream.dart';
+// import '../utilities/Adafruit_feed.dart';
 
 class RoomDetailsPage extends StatefulWidget {
   final Room room;
@@ -42,13 +42,14 @@ class _RoomDetailsPageState extends State<RoomDetailsPage>
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
 
-    _animationController =
-        AnimationController(duration: Duration(milliseconds: 2000), vsync: this)
-          ..addStatusListener((AnimationStatus status) {
-            if (status == AnimationStatus.dismissed) {
-              Navigator.of(context).pop();
-            }
-          });
+    _animationController = AnimationController(
+      duration: Duration(milliseconds: 2000),
+      vsync: this
+    )..addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.dismissed) {
+          Navigator.of(context).pop();
+        }
+      });
     _enterAnimations = RoomDetailsEnterAnimations(_animationController);
     _animationController.forward();
   }
